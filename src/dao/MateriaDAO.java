@@ -17,8 +17,8 @@ public class MateriaDAO {
                     rs.getInt("id"),
                     rs.getString("nombre"),
                     rs.getInt("creditos"),
-                    rs.getString("profesor")
-            ));
+                    rs.getString("profesor"),
+                    rs.getString("alumno")));
         }
         rs.close();
         stmt.close();
@@ -29,10 +29,11 @@ public class MateriaDAO {
     public static void agregar(Materia m) throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO materias (nombre, creditos, profesor) VALUES (?, ?, ?)");
+                "INSERT INTO materias (nombre, creditos, profesor, alumno) VALUES (?, ?, ?, ?)");
         ps.setString(1, m.getNombre());
         ps.setInt(2, m.getCreditos());
         ps.setString(3, m.getProfesor());
+        ps.setString(4, m.getAlumno());
         ps.executeUpdate();
         ps.close();
         conn.close();
@@ -41,11 +42,12 @@ public class MateriaDAO {
     public static void actualizar(Materia m) throws SQLException {
         Connection conn = DBUtil.getConnection();
         PreparedStatement ps = conn.prepareStatement(
-                "UPDATE materias SET nombre=?, creditos=?, profesor=? WHERE id=?");
+                "UPDATE materias SET nombre=?, creditos=?, profesor=?, alumno=? WHERE id=?");
         ps.setString(1, m.getNombre());
         ps.setInt(2, m.getCreditos());
         ps.setString(3, m.getProfesor());
-        ps.setInt(4, m.getId());
+        ps.setString(4, m.getAlumno());
+        ps.setInt(5, m.getId());
         ps.executeUpdate();
         ps.close();
         conn.close();
